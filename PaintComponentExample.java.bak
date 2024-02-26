@@ -1,0 +1,52 @@
+import javax.swing.*;
+import java.awt.*;
+
+public class PaintComponentExample extends JPanel {
+    private int x = 0;
+    private int y = 0;
+
+    public PaintComponentExample() {
+        // Set the preferred size of the panel
+        setPreferredSize(new Dimension(400, 300));
+
+        // Simulate some changes in coordinates
+        Thread updateThread = new Thread(() -> {
+            try {
+                while (true) {
+                    // Update the coordinates
+                    x = (x + 1) % getWidth();
+                    y = (y + 1) % getHeight();
+
+                    // Call repaint to trigger the paintComponent method
+                    SwingUtilities.invokeLater(this::repaint);
+
+                    // Sleep for a while to slow down the updates
+                    Thread.sleep(50);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        updateThread.start();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        // Draw a circle at the updated coordinates
+        g.setColor(Color.RED);
+        g.fillOval(x, y, 20, 20);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("PaintComponent Example");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.getContentPane().add(new PaintComponentExample());
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
+    }
+}

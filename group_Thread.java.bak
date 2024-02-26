@@ -1,0 +1,22 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+class group_Thread  extends JPanel  implements Runnable
+{
+	int x1=50,y1=50;
+	int x11=600,y11=50;
+	group_Thread()
+	{
+		
+	}
+	int g1=0;
+	public  void paintComponent(Graphics g)
+	{
+		super.paintComponent(g);
+		System.out.println("paint entry...");
+	}
+	public synchronized  void run()
+	{
+		System.out.println("run +> "+Thread.currentThread().getName());
+	}
+}

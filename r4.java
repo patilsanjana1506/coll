@@ -1,0 +1,44 @@
+
+class A implements Runnable
+{
+ synchronized void show1()
+{
+	System.out.println("ram1");
+	notify();
+	System.out.println("sita");
+}
+synchronized void show2()
+{
+	System.out.println("ram2");
+	System.out.println("wait");
+	try{wait();}catch(Exception e){}
+	System.out.println("sita1");
+}
+int c=1;
+public void run() 
+{
+	if(c==1)
+	{
+		c++;
+	show2();
+	}
+	else
+	{
+		show1();
+	}
+}
+}
+
+class r4
+{
+
+public static void main(String aa[])throws Exception 
+{
+	A a1=new A();
+	A a2=new A();
+	Thread t1=new Thread(a1);
+	// Thread t2=new Thread(a1);
+	t1.start();
+	// t2.start();
+}
+}
